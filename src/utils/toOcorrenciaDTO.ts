@@ -1,8 +1,7 @@
-import type { Iocorrencias } from "../models/ocorrencia.js";
 import type { OcorrenciaResponseDTO } from "../types/ocorrenciaResponseDTO.js";
 
 export function toOcorrenciaResponseDTO(
-  ocorrencia: Iocorrencias
+  ocorrencia
 ): OcorrenciaResponseDTO {
   return {
     id: ocorrencia._id.toString(),

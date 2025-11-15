@@ -1,7 +1,6 @@
-import type { IUsuario } from "../models/usuario.js";
 import type { UsuarioResponseDTO } from "../types/usuarioDTO.js";
 
-export function toUsuarioResponseDTO(usuario: IUsuario): UsuarioResponseDTO {
+export function toUsuarioResponseDTO(usuario): UsuarioResponseDTO {
   return {
     id: usuario._id.toString(),
     nome: usuario.nome,
