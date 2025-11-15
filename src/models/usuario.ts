@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
+/* 
 import bcrypt from "bcryptjs";
 
 export interface IUsuario extends Document {
@@ -77,3 +77,4 @@ usuarioSchema.methods.compararSenha = async function (
 };
 
 export const Usuario = mongoose.model<IUsuario>("Usuario", usuarioSchema);
+ */

@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import {
   cadastrarUsuario,
   loginUsuario,
@@ -26,3 +26,4 @@ router.put("/alterar-senha", autenticar, alterarSenha);
 router.delete("/:id", autenticar, desativarUsuario);
 
 export default router;
+ */

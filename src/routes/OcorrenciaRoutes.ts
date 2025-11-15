@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import {
   listarOcorrencias,
   criarOcorrencia,
@@ -18,3 +18,4 @@ router.put("/editar", autenticar, editarOcorrencia);
 router.delete("/", autenticar, excluirOcorrencia);
 
 export default router;
+ */

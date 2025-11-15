@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+/* import type { Request, Response } from "express";
 import { Usuario } from "../models/usuario.js";
 import type {
   CadastroUsuarioRequestDTO,
@@ -9,28 +9,22 @@ import type {
 import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO.js";
 import { gerarToken } from "../utils/jwtUtils.js";
 
-/**
- * Cadastrar novo usuário
- */
+
 export const cadastrarUsuario = async (req: Request, res: Response) => {
   try {
     const { nome, email, senha, cpf, matricula } =
       req.body as CadastroUsuarioRequestDTO;
 
-    // Validações básicas
     if (!nome || !email || !senha || !cpf || !matricula) {
       return res.status(400).json({ error: "Todos os campos são obrigatórios" });
     }
 
-    // Remove caracteres especiais do CPF (caso venha formatado)
     const cpfLimpo = cpf.replace(/\D/g, "");
 
-    // Verifica se CPF tem 11 dígitos
     if (cpfLimpo.length !== 11) {
       return res.status(400).json({ error: "CPF inválido" });
     }
 
-    // Verifica se já existe usuário com esse email
     const usuarioExistenteEmail = await Usuario.findOne({ email });
     if (usuarioExistenteEmail) {
       return res.status(400).json({ error: "Email já cadastrado" });
@@ -86,45 +80,37 @@ export const cadastrarUsuario = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Login de usuário
- */
+
 export const loginUsuario = async (req: Request, res: Response) => {
   try {
     const { email, senha } = req.body as LoginUsuarioRequestDTO;
 
-    // Validações básicas
     if (!email || !senha) {
       return res.status(400).json({ error: "Email e senha são obrigatórios" });
     }
 
-    // Busca usuário pelo email (incluindo senha)
     const usuario = await Usuario.findOne({ email }).select("+senha");
 
     if (!usuario) {
       return res.status(401).json({ error: "Email ou senha incorretos" });
     }
 
-    // Verifica se usuário está ativo
     if (!usuario.ativo) {
       return res.status(401).json({ error: "Usuário inativo" });
     }
 
-    // Compara senha
     const senhaCorreta = await usuario.compararSenha(senha);
 
     if (!senhaCorreta) {
       return res.status(401).json({ error: "Email ou senha incorretos" });
     }
 
-    // Gera token JWT
     const token = gerarToken({
       id: usuario._id.toString(),
       email: usuario.email,
       matricula: usuario.matricula,
     });
 
-    // Retorna usuário e token
     const resposta = toUsuarioResponseDTO(usuario);
     res.json({
       usuario: resposta,
@@ -137,9 +123,7 @@ export const loginUsuario = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Listar todos os usuários
- */
+
 export const listarUsuarios = async (req: Request, res: Response) => {
   try {
     const usuarios = await Usuario.find({ ativo: true });
@@ -151,9 +135,7 @@ export const listarUsuarios = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Buscar usuário por ID
- */
+
 export const buscarUsuario = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -172,9 +154,7 @@ export const buscarUsuario = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Atualizar dados do usuário
- */
+
 export const atualizarUsuario = async (req: Request, res: Response) => {
   try {
     const { id, nome, email, cpf, matricula } =
@@ -190,7 +170,6 @@ export const atualizarUsuario = async (req: Request, res: Response) => {
       return res.status(404).json({ error: "Usuário não encontrado" });
     }
 
-    // Atualiza campos fornecidos
     if (nome) usuario.nome = nome;
     if (email) usuario.email = email;
     if (cpf) usuario.cpf = cpf.replace(/\D/g, "");
@@ -206,7 +185,6 @@ export const atualizarUsuario = async (req: Request, res: Response) => {
   } catch (err: any) {
     console.error("Erro ao atualizar usuário:", err);
 
-    // Erros de duplicação (email, cpf ou matrícula já existentes)
     if (err.code === 11000) {
       const field = Object.keys(err.keyPattern)[0];
       return res.status(400).json({ error: `${field} já cadastrado` });
@@ -216,9 +194,7 @@ export const atualizarUsuario = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Alterar senha do usuário
- */
+
 export const alterarSenha = async (req: Request, res: Response) => {
   try {
     const { id, senhaAtual, novaSenha } = req.body as AlterarSenhaRequestDTO;
@@ -235,21 +211,18 @@ export const alterarSenha = async (req: Request, res: Response) => {
       });
     }
 
-    // Busca usuário com senha
     const usuario = await Usuario.findById(id).select("+senha");
 
     if (!usuario) {
       return res.status(404).json({ error: "Usuário não encontrado" });
     }
 
-    // Verifica senha atual
     const senhaCorreta = await usuario.compararSenha(senhaAtual);
 
     if (!senhaCorreta) {
       return res.status(401).json({ error: "Senha atual incorreta" });
     }
 
-    // Atualiza senha (será hasheada automaticamente)
     usuario.senha = novaSenha;
     await usuario.save();
 
@@ -260,9 +233,7 @@ export const alterarSenha = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Desativar usuário (soft delete)
- */
+
 export const desativarUsuario = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -283,12 +254,9 @@ export const desativarUsuario = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Obter dados do usuário autenticado
- */
+
 export const obterPerfilUsuario = async (req: Request, res: Response) => {
   try {
-    // req.usuario foi populado pelo middleware de autenticação
     if (!req.usuario) {
       return res.status(401).json({ error: "Não autenticado" });
     }
@@ -306,3 +274,4 @@ export const obterPerfilUsuario = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro ao obter perfil do usuário" });
   }
 };
+ */

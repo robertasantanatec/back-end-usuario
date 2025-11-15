@@ -1,5 +1,4 @@
-import mongoose, { Schema, Document } from "mongoose";
-
+/* 
 export interface Iocorrencias extends Document {
   NomeCompleto: string;
   Telefone1: string;
@@ -26,3 +25,4 @@ export const Ocorrencia = mongoose.model<Iocorrencias>(
   "Ocorrencias",
   ocorrenciaSchema
 );
+ */

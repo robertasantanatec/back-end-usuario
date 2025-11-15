@@ -1,4 +1,4 @@
-import type { Request, Response } from "express";
+/* import type { Request, Response } from "express";
 import { Ocorrencia } from "../models/ocorrencia.js";
 import type {
   DeleteOcorrenciaRequestDTO,
@@ -107,3 +107,4 @@ export const excluirOcorrencia = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Erro ao excluir ocorrência" });
   }
 };
+ */
