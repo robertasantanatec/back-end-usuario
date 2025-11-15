@@ -16,10 +16,10 @@ export function toOcorrenciaResponseDTO(
   ocorrencia: Iocorrencias
 ): OcorrenciaResponseDTO {
   return {
-    id: ocorrencia.id.toString(),
+    id: ocorrencia?.id?.toString(),
     NomeCompleto: ocorrencia.NomeCompleto,
     Telefone1: ocorrencia.Telefone1,
-    Telefone2: ocorrencia.Telefone2,
+    Telefone2: ocorrencia?.Telefone2,
     Obs: ocorrencia.Obs,
     TipoOcorrencia: ocorrencia.TipoOcorrencia,
     EquipeAssociada: ocorrencia.EquipeAssociada,
