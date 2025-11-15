@@ -11,7 +11,7 @@ import { createClient } from '@supabase/supabase-js'
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 const PROJECT_URL = process.env.PROJECT_URL || ""
 const API_KEY = process.env.API_KEY || ""
 const supabase = createClient(PROJECT_URL, API_KEY)
