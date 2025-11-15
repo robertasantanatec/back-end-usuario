@@ -13,4 +13,4 @@ RUN npm install
 RUN npm run build
 
 # Define the entry point for the container
-CMD npm start dev
+CMD npm run dev
