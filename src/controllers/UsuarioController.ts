@@ -1,5 +1,4 @@
-/* import type { Request, Response } from "express";
-import { Usuario } from "../models/usuario.js";
+import type { Request, Response } from "express";
 import type {
   CadastroUsuarioRequestDTO,
   LoginUsuarioRequestDTO,
@@ -10,7 +9,7 @@ import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO.js";
 import { gerarToken } from "../utils/jwtUtils.js";
 
 
-export const cadastrarUsuario = async (req: Request, res: Response) => {
+/* export const cadastrarUsuario = async (req: Request, res: Response) => {
   try {
     const { nome, email, senha, cpf, matricula } =
       req.body as CadastroUsuarioRequestDTO;
@@ -273,5 +272,4 @@ export const obterPerfilUsuario = async (req: Request, res: Response) => {
     console.error("Erro ao obter perfil:", err);
     res.status(500).json({ error: "Erro ao obter perfil do usuário" });
   }
-};
- */
+}; */

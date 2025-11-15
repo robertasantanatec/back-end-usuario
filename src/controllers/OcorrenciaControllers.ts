@@ -1,5 +1,4 @@
-/* import type { Request, Response } from "express";
-import { Ocorrencia } from "../models/ocorrencia.js";
+import type { Request, Response } from "express";
 import type {
   DeleteOcorrenciaRequestDTO,
   EditOcorrenciaRequestDTO,
@@ -7,7 +6,7 @@ import type {
 } from "../types/ocorrenciaResponseDTO.js";
 import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO.js";
 
-export const listarOcorrencias = async (req: Request, res: Response) => {
+/* export const listarOcorrencias = async (req: Request, res: Response) => {
   try {
     const ocorrencias = await Ocorrencia.find();
     const resposta = ocorrencias.map(toOcorrenciaResponseDTO);
@@ -106,5 +105,4 @@ export const excluirOcorrencia = async (req: Request, res: Response) => {
     console.error("Erro ao excluir ocorrência:", err);
     res.status(500).json({ error: "Erro ao excluir ocorrência" });
   }
-};
- */
+}; */
