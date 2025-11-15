@@ -1,6 +1,17 @@
 import type { UsuarioResponseDTO } from "../types/usuarioDTO.js";
 
-export function toUsuarioResponseDTO(usuario): UsuarioResponseDTO {
+interface IUsuario extends Document {
+  nome: string;
+  email: string;
+  senha: string;
+  cpf: string;
+  matricula: string;
+  dataCadastro: Date;
+  ativo: boolean;
+  compararSenha(senhaFornecida: string): Promise<boolean>;
+}
+
+export function toUsuarioResponseDTO(usuario: IUsuario): UsuarioResponseDTO {
   return {
     id: usuario._id.toString(),
     nome: usuario.nome,
