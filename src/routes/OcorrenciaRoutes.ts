@@ -1,20 +1,19 @@
 import { Router } from "express";
-/* import {
-  listarOcorrencias,
+import {
+/*   listarOcorrencias,
   criarOcorrencia,
   FinalizarOcorrencia,
   editarOcorrencia,
-  excluirOcorrencia,
-} from "../controllers/OcorrenciaControllers.ts"; */
+  excluirOcorrencia, */
+} from "../controllers/OcorrenciaControllers.ts";
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();
 
-// Todas as rotas de ocorrência requerem autenticação
 /* router.get("/", autenticar, listarOcorrencias);
 router.post("/", autenticar, criarOcorrencia);
 router.put("/finalizar", autenticar, FinalizarOcorrencia);
 router.put("/editar", autenticar, editarOcorrencia);
-router.delete("/", autenticar, excluirOcorrencia);
+router.delete("/", autenticar, excluirOcorrencia); */
 
-export default router; */
+export default router;

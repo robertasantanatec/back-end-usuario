@@ -6,6 +6,8 @@ import type {
 } from "../types/ocorrenciaResponseDTO.js";
 import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO.js";
 
+
+
 /* export const listarOcorrencias = async (req: Request, res: Response) => {
   try {
     const ocorrencias = await Ocorrencia.find();

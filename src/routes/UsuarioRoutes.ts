@@ -1,28 +1,27 @@
 import { Router } from "express";
-/* import {
-  cadastrarUsuario,
+import {
+/*   cadastrarUsuario,
   loginUsuario,
   listarUsuarios,
   buscarUsuario,
   atualizarUsuario,
   alterarSenha,
   desativarUsuario,
-  obterPerfilUsuario,
-} from "../controllers/UsuarioController.ts"; */
+  obterPerfilUsuario, */
+  testeDb
+} from "../controllers/UsuarioController.ts";
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();
 
-// Rotas públicas (não requerem autenticação)
+router.get("/teste", testeDb)
 /* router.post("/cadastro", cadastrarUsuario);
-router.post("/login", loginUsuario); */
-
-// Rotas protegidas (requerem autenticação)
-/* router.get("/perfil", autenticar, obterPerfilUsuario);
+router.post("/login", loginUsuario);
+router.get("/perfil", autenticar, obterPerfilUsuario);
 router.get("/listar", autenticar, listarUsuarios);
 router.get("/:id", autenticar, buscarUsuario);
 router.put("/atualizar", autenticar, atualizarUsuario);
 router.put("/alterar-senha", autenticar, alterarSenha);
-router.delete("/:id", autenticar, desativarUsuario);
+router.delete("/:id", autenticar, desativarUsuario); */
 
-export default router; */
+export default router;
