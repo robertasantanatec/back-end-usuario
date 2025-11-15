@@ -1,7 +1,7 @@
 import type { UsuarioResponseDTO } from "../types/usuarioDTO.js";
 
 interface IUsuario extends Document {
-  id?: number;
+  id: number;
   nome: string;
   email: string;
   senha: string;
@@ -14,7 +14,7 @@ interface IUsuario extends Document {
 
 export function toUsuarioResponseDTO(usuario: IUsuario): UsuarioResponseDTO {
   return {
-    id: usuario?.id?.toString(),
+    id: usuario.id.toString(),
     nome: usuario.nome,
     email: usuario.email,
     cpf: usuario.cpf,

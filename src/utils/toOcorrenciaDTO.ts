@@ -1,7 +1,7 @@
 import type { OcorrenciaResponseDTO } from "../types/ocorrenciaResponseDTO.js";
 
 interface Iocorrencias extends Document {
-  id?: number;
+  id: number;
   NomeCompleto: string;
   Telefone1: string;
   Telefone2?: string;
@@ -16,7 +16,7 @@ export function toOcorrenciaResponseDTO(
   ocorrencia: Iocorrencias
 ): OcorrenciaResponseDTO {
   return {
-    id: ocorrencia?.id?.toString(),
+    id: ocorrencia.id.toString(),
     NomeCompleto: ocorrencia.NomeCompleto,
     Telefone1: ocorrencia.Telefone1,
     Telefone2: ocorrencia?.Telefone2,
