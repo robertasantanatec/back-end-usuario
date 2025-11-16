@@ -1,4 +1,4 @@
-import type { UsuarioResponseDTO } from "../types/usuarioDTO.js";
+import type { UsuarioResponseDTO } from "../types/usuarioDTO";
 
 interface IUsuario extends Document {
   id: number;

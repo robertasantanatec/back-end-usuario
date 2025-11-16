@@ -1,4 +1,4 @@
-import type { OcorrenciaResponseDTO } from "../types/ocorrenciaResponseDTO.js";
+import type { OcorrenciaResponseDTO } from "../types/ocorrenciaResponseDTO";
 
 interface Iocorrencias extends Document {
   id: number;

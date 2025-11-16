@@ -3,8 +3,8 @@ import type {
   DeleteOcorrenciaRequestDTO,
   EditOcorrenciaRequestDTO,
   OcorrenciaRequestDTO,
-} from "../types/ocorrenciaResponseDTO.js";
-import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO.js";
+} from "../types/ocorrenciaResponseDTO";
+import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO";
 
 
 

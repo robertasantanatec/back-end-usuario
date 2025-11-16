@@ -4,10 +4,10 @@ import type {
   LoginUsuarioRequestDTO,
   AtualizarUsuarioRequestDTO,
   AlterarSenhaRequestDTO,
-} from "../types/usuarioDTO.ts";
-import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO.ts";
-import { gerarToken } from "../utils/jwtUtils.ts";
-import {supabase} from "../index.ts"
+} from "../types/usuarioDTO";
+import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO";
+import { gerarToken } from "../utils/jwtUtils";
+import {supabase} from "../index"
 
 export const testeDb = async() => {
   const { data, error } = await supabase

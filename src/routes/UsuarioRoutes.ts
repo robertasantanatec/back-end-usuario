@@ -9,7 +9,7 @@ import {
   desativarUsuario,
   obterPerfilUsuario, */
   testeDb
-} from "../controllers/UsuarioController.ts";
+} from "../controllers/UsuarioController";
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();

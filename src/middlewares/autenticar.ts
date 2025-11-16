@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { verificarToken } from "../utils/jwtUtils.js";
+import { verificarToken } from "../utils/jwtUtils";
 
 // Estende o tipo Request do Express para incluir o usuário autenticado
 declare global {

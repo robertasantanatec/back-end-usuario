@@ -1,16 +1,20 @@
-# Use the official Node.js image as the base image
 FROM node:20
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy the application files into the working directory
-COPY . /app
-EXPOSE 3001
+# Copia os pacotes primeiro
+COPY package*.json ./
 
-# Install the application dependencies and build
-RUN npm install
+# Instala somente dependências de produção
+RUN npm install --omit=dev
+
+# Copia o projeto inteiro
+COPY . .
+
+# Build
 RUN npm run build
 
-# Define the entry point for the container
-CMD npm run dev
+EXPOSE 3001
+
+# Inicia o servidor compilado
+CMD ["npm", "start"]

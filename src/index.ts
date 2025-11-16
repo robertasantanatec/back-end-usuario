@@ -11,7 +11,7 @@ import { createClient } from '@supabase/supabase-js'
 dotenv.config();
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 const PROJECT_URL = process.env.PROJECT_URL || ""
 const API_KEY = process.env.API_KEY || ""
 export const supabase = createClient(PROJECT_URL, API_KEY)
@@ -30,6 +30,14 @@ app.get("/", (req, res) => {
       usuarios: "/api/usuarios",
       ocorrencias: "/api/ocorrencias"
     }
+  });
+});
+
+app.get("/test-env", (req, res) => {
+  res.json({
+    database: process.env.PROJECT_URL || "não chegou",
+    apiKey: process.env.API_KEY || "não chegou",
+    all: process.env
   });
 });
 

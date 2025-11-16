@@ -5,7 +5,7 @@ import {
   FinalizarOcorrencia,
   editarOcorrencia,
   excluirOcorrencia, */
-} from "../controllers/OcorrenciaControllers.ts";
+} from "../controllers/OcorrenciaControllers";
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();
