@@ -7,7 +7,6 @@ import type {
 } from "../types/usuarioDTO";
 import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO";
 import { gerarToken } from "../utils/jwtUtils";
-import {supabase} from "../index"
 
 /* export const cadastrarUsuario = async (req: Request, res: Response) => {
   try {
