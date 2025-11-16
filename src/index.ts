@@ -21,14 +21,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const testeDb = async() => {
+/* const testeDb = async() => {
   const { data, error } = await supabase
   .from('tabela_usuario')
   .select('*')
   console.log({data})
 }
 
-testeDb()
+testeDb() */
 
 // Rotas
 app.get("/", (req, res) => {
