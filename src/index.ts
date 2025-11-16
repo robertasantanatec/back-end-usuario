@@ -14,8 +14,8 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const PROJECT_URL = process.env.PROJECT_URL || ""
 const API_KEY = process.env.API_KEY || ""
-export const supabase = createClient(PROJECT_URL, API_KEY)
-
+const supabase = createClient(PROJECT_URL, API_KEY)
+console.log(supabase)
  // Middlewares
 app.use(cors());
 app.use(express.json());
@@ -39,7 +39,6 @@ app.get("/", (req, res) => {
       usuarios: "/api/usuarios",
       ocorrencias: "/api/ocorrencias"
     },
-    supabase
   });
 });
 
