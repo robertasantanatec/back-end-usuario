@@ -21,6 +21,15 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const testeDb = async() => {
+  const { data, error } = await supabase
+  .from('tabela_usuario')
+  .select('*')
+  console.log({data})
+}
+
+testeDb()
+
 // Rotas
 app.get("/", (req, res) => {
   res.json({ 
@@ -29,12 +38,7 @@ app.get("/", (req, res) => {
     endpoints: {
       usuarios: "/api/usuarios",
       ocorrencias: "/api/ocorrencias"
-    }
-  });
-});
-
-app.get("/test-env", (req, res) => {
-  res.json({
+    },
     supabase
   });
 });

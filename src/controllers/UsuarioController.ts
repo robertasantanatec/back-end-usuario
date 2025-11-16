@@ -9,13 +9,6 @@ import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO";
 import { gerarToken } from "../utils/jwtUtils";
 import {supabase} from "../index"
 
-export const testeDb = async() => {
-  const { data, error } = await supabase
-  .from('tabela_usuario')
-  .select('*')
-  console.log({data})
-}
-
 /* export const cadastrarUsuario = async (req: Request, res: Response) => {
   try {
     const { nome, email, senha, cpf, matricula } =

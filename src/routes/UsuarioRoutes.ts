@@ -8,13 +8,11 @@ import {
   alterarSenha,
   desativarUsuario,
   obterPerfilUsuario, */
-  testeDb
 } from "../controllers/UsuarioController";
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();
 
-router.get("/test-env", testeDb)
 /* router.post("/cadastro", cadastrarUsuario);
 router.post("/login", loginUsuario);
 router.get("/perfil", autenticar, obterPerfilUsuario);
