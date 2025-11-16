@@ -15,23 +15,15 @@ const PORT = process.env.PORT || 3001;
 const PROJECT_URL = process.env.PROJECT_URL || ""
 const API_KEY = process.env.API_KEY || ""
 const supabase = createClient(PROJECT_URL, API_KEY)
-console.log(supabase)
+
  // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* const testeDb = async() => {
-  const { data, error } = await supabase
-  .from('tabela_usuario')
-  .select('*')
-  console.log({data})
-}
-
-testeDb() */
 
 // Rotas
-app.get("/", (req, res) => {
+app.get("/", async(req, res) => {
   res.json({ 
     message: "API CBMPE - Sistema de Ocorrências",
     version: "1.0.0",
@@ -39,6 +31,7 @@ app.get("/", (req, res) => {
       usuarios: "/api/usuarios",
       ocorrencias: "/api/ocorrencias"
     },
+    supabaseUsersData: await supabase.from("tabela_usuario").select("*"),
   });
 });
 
@@ -51,7 +44,7 @@ app.use((req, res) => {
 });
 
 // Inicia servidor
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
 });

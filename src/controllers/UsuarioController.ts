@@ -8,6 +8,17 @@ import type {
 import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO";
 import { gerarToken } from "../utils/jwtUtils";
 
+/* export const listarUsuarios = async (req: Request, res: Response) => {
+  try {
+    const usuarios = await Usuario.find({ ativo: true });
+    const resposta = usuarios.map(toUsuarioResponseDTO);
+    res.json(resposta);
+  } catch (err) {
+    console.error("Erro ao listar usuários:", err);
+    res.status(500).json({ error: "Erro ao listar usuários" });
+  }
+}; */
+
 /* export const cadastrarUsuario = async (req: Request, res: Response) => {
   try {
     const { nome, email, senha, cpf, matricula } =
