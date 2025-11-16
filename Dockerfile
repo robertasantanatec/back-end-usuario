@@ -4,8 +4,10 @@
 FROM node:20 AS builder
 
 WORKDIR /app
+
 COPY package*.json ./
 RUN npm install
+
 COPY . .
 RUN npm run build
 
@@ -19,7 +21,6 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 
-# Copia só o dist e o necessário
 COPY --from=builder /app/dist ./dist
 
 EXPOSE 3001

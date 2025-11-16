@@ -2,12 +2,11 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
+    "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "dist",
     "moduleResolution": "node",
+    "allowJs": false,
     "resolveJsonModule": true
   },
   "include": ["src"]
