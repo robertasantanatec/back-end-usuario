@@ -35,9 +35,7 @@ app.get("/", (req, res) => {
 
 app.get("/test-env", (req, res) => {
   res.json({
-    database: process.env.PROJECT_URL || "não chegou",
-    apiKey: process.env.API_KEY || "não chegou",
-    all: process.env
+    supabase
   });
 });
 
