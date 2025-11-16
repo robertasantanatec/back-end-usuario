@@ -1,20 +1,27 @@
+# ===========================
+# STAGE 1 — BUILD
+# ===========================
+FROM node:20 AS builder
+
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# ===========================
+# STAGE 2 — RUNTIME
+# ===========================
 FROM node:20
 
 WORKDIR /app
 
-# Copia os pacotes primeiro
 COPY package*.json ./
-
-# Instala somente dependências de produção
 RUN npm install --omit=dev
 
-# Copia o projeto inteiro
-COPY . .
-
-# Build
-RUN npm run build
+# Copia só o dist e o necessário
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3001
 
-# Inicia o servidor compilado
 CMD ["npm", "start"]
