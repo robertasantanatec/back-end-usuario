@@ -1,7 +1,8 @@
 import { Router } from "express";
 import {
+    criarOcorrencia,
+
 /*   listarOcorrencias,
-  criarOcorrencia,
   FinalizarOcorrencia,
   editarOcorrencia,
   excluirOcorrencia, */
@@ -9,6 +10,8 @@ import {
 import { autenticar } from "../middlewares/autenticar.js";
 
 const router = Router();
+
+router.post("/",/*  autenticar, */ criarOcorrencia);
 
 /* router.get("/", autenticar, listarOcorrencias);
 router.post("/", autenticar, criarOcorrencia);

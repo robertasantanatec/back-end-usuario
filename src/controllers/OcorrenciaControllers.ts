@@ -5,8 +5,52 @@ import type {
   OcorrenciaRequestDTO,
 } from "../types/ocorrenciaResponseDTO";
 import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO";
+import { createIncident } from "../repository/incident";
+import { Incident } from "../entities/incident";
 
+export const criarOcorrencia = async (req: Request, res: Response) => {
+  try {
+    const {
+      fullname,
+      firstPhoneNumber,
+      secondPhoneNumber,
+      observations,
+      incidentType,
+      associatedTeam,
+      status,
+      dateTime,
+    } = req.body;/*   as OcorrenciaRequestDTO */
 
+    const newIncidentDTO = {
+      fullname,
+      firstPhoneNumber,
+      secondPhoneNumber,
+      observations,
+      incidentType,
+      associatedTeam,
+      status,
+      dateTime,
+    };
+
+    let newIncidentEntity = new Incident();
+
+    newIncidentEntity.fullname = newIncidentDTO.fullname;
+    newIncidentEntity.firstPhoneNumber = newIncidentDTO.firstPhoneNumber;
+    newIncidentEntity.secondPhoneNumber = newIncidentDTO.secondPhoneNumber;
+    newIncidentEntity.observations = newIncidentDTO.observations;
+    newIncidentEntity.incidentType = newIncidentDTO.incidentType;
+    newIncidentEntity.associatedTeam = newIncidentDTO.associatedTeam;
+    newIncidentEntity.status = newIncidentDTO.status;
+    newIncidentEntity.dateTime = newIncidentDTO.dateTime;
+
+    const response = await createIncident(newIncidentEntity);
+
+    res.status(201).json(response);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Erro ao criar ocorrência" });
+  }
+};
 
 /* export const listarOcorrencias = async (req: Request, res: Response) => {
   try {
@@ -18,37 +62,7 @@ import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO";
   }
 };
 
-export const criarOcorrencia = async (req: Request, res: Response) => {
-  try {
-    const {
-      NomeCompleto,
-      Telefone1,
-      Telefone2,
-      Obs,
-      TipoOcorrencia,
-      EquipeAssociada,
-    } = req.body as OcorrenciaRequestDTO;
 
-    const novaOcorrencia = new Ocorrencia({
-      NomeCompleto,
-      Telefone1,
-      Telefone2: Telefone2 ?? "",
-      Obs,
-      TipoOcorrencia,
-      EquipeAssociada: EquipeAssociada ?? "",
-      Status: "Em andamento",
-      data_hora: new Date(),
-    });
-
-    await novaOcorrencia.save();
-
-    const resposta = toOcorrenciaResponseDTO(novaOcorrencia);
-    res.status(201).json(resposta);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Erro ao criar ocorrência" });
-  }
-};
 
 export const FinalizarOcorrencia = async (req: Request, res: Response) => {
   try {

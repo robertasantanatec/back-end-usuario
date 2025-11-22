@@ -1,9 +1,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import "reflect-metadata";
 import usuarioRoutes from "./routes/UsuarioRoutes.js";
 import ocorrenciaRoutes from "./routes/OcorrenciaRoutes.js";
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
+import { AppDataSource } from "./database/data-source";
 
 // Create a single supabase client for interacting with your database
 
@@ -11,25 +13,32 @@ import { createClient } from '@supabase/supabase-js'
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-const PROJECT_URL = process.env.PROJECT_URL || ""
-const API_KEY = process.env.API_KEY || ""
-const supabase = createClient(PROJECT_URL, API_KEY)
+const PORT = process.env.PORT || 3000;
+const PROJECT_URL = process.env.PROJECT_URL || "";
+const API_KEY = process.env.API_KEY || "";
+const supabase = createClient(PROJECT_URL, API_KEY);
 
- // Middlewares
+AppDataSource.initialize()
+  .then(() => {
+    console.log("📦 Banco conectado com sucesso!");
+  })
+  .catch((err) => {
+    console.error("❌ Erro ao conectar banco:", err);
+  });
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 // Rotas
-app.get("/", async(req, res) => {
-  res.json({ 
+app.get("/", async (req, res) => {
+  res.json({
     message: "API CBMPE - Sistema de Ocorrências",
     version: "1.0.0",
     endpoints: {
       usuarios: "/api/usuarios",
-      ocorrencias: "/api/ocorrencias"
+      ocorrencias: "/api/ocorrencias",
     },
     supabaseUsersData: await supabase.from("tabela_usuario").select("*"),
   });
@@ -44,7 +53,7 @@ app.use((req, res) => {
 });
 
 // Inicia servidor
-app.listen(PORT, async() => {
+app.listen(PORT, async () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
   console.log(`📍 http://localhost:${PORT}`);
 });
