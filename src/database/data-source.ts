@@ -1,5 +1,5 @@
-import { Incident } from "../entities/incident";
-import { User } from "../entities/user";
+import { Incident } from "../entities/Incident";
+import { User } from "../entities/User";
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";

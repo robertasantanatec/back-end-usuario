@@ -1,17 +1,17 @@
 import { AppDataSource } from "../database/data-source";
-import { Incident } from "../entities/incident";
+import { Incident } from "../entities/Incident";
 
 const incidentRepository = AppDataSource.getRepository(Incident);
 
 type TCreateIncident = {
-  fullname:string;
-  firstPhoneNumber:string;
-  secondPhoneNumber?:string;
-  observations:string;
-  incidentType:string;
-  associatedTeam:string;
-  status:string;
-  dateTime:Date;
+  fullname: string;
+  firstPhoneNumber: string;
+  secondPhoneNumber?: string;
+  observations: string;
+  incidentType: string;
+  associatedTeam: string;
+  status: string;
+  dateTime: Date;
 };
 
 export const createIncident = async (incidentEntity: TCreateIncident) => {

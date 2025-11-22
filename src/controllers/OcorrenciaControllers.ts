@@ -6,7 +6,7 @@ import type {
 } from "../types/ocorrenciaResponseDTO";
 import { toOcorrenciaResponseDTO } from "../utils/toOcorrenciaDTO";
 import { createIncident } from "../repository/incident";
-import { Incident } from "../entities/incident";
+import { Incident } from "../entities/Incident";
 
 export const criarOcorrencia = async (req: Request, res: Response) => {
   try {
