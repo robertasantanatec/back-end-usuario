@@ -19,7 +19,7 @@ export const criarOcorrencia = async (req: Request, res: Response) => {
       associatedTeam,
       status,
       dateTime,
-    } = req.body;/*   as OcorrenciaRequestDTO */
+    } = req.body; /*   as OcorrenciaRequestDTO */
 
     const newIncidentDTO = {
       fullname,
@@ -36,7 +36,8 @@ export const criarOcorrencia = async (req: Request, res: Response) => {
 
     newIncidentEntity.fullname = newIncidentDTO.fullname;
     newIncidentEntity.firstPhoneNumber = newIncidentDTO.firstPhoneNumber;
-    newIncidentEntity.secondPhoneNumber = newIncidentDTO.secondPhoneNumber;
+    newIncidentEntity.secondPhoneNumber =
+      newIncidentDTO?.secondPhoneNumber ?? "";
     newIncidentEntity.observations = newIncidentDTO.observations;
     newIncidentEntity.incidentType = newIncidentDTO.incidentType;
     newIncidentEntity.associatedTeam = newIncidentDTO.associatedTeam;

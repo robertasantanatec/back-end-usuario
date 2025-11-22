@@ -6,12 +6,12 @@ const incidentRepository = AppDataSource.getRepository(Incident);
 type TCreateIncident = {
   fullname:string;
   firstPhoneNumber:string;
-  secondPhoneNumber:string;
+  secondPhoneNumber?:string;
   observations:string;
   incidentType:string;
   associatedTeam:string;
   status:string;
-  dateTime:string;
+  dateTime:Date;
 };
 
 export const createIncident = async (incidentEntity: TCreateIncident) => {
