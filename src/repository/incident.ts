@@ -3,7 +3,18 @@ import { Incident } from "../entities/incident";
 
 const incidentRepository = AppDataSource.getRepository(Incident);
 
-export const createIncident = async (incidentEntity) => {
+type TCreateIncident = {
+  fullname:string;
+  firstPhoneNumber:string;
+  secondPhoneNumber:string;
+  observations:string;
+  incidentType:string;
+  associatedTeam:string;
+  status:string;
+  dateTime:string;
+};
+
+export const createIncident = async (incidentEntity: TCreateIncident) => {
   const createdIncident = incidentRepository.create(incidentEntity);
   return await incidentRepository.save(createdIncident);
 };
