@@ -1,15 +1,32 @@
 // DTOs para requests
 export interface CadastroUsuarioRequestDTO {
-  nome: string;
-  email: string;
-  senha: string;
+  fullname: string;
   cpf: string;
-  matricula: string;
+  birthDate: Date;
+  gender: "M" | "F";
+  phoneNumber: string;
+  email: string;
+  enrollmentNumber: string;
+  post: string;
+  unity: string;
+  specialization: string;
+  address: {
+    postOfficeBox: string;
+    street: string;
+    number: string;
+    complement: string;
+    district: string;
+    city: string;
+    state: string;
+  };
+  passwordHash: string;
+  profileImage: string;
+  isActive: boolean;
 }
 
 export interface LoginUsuarioRequestDTO {
   email: string;
-  senha: string;
+  password: string;
 }
 
 export interface AtualizarUsuarioRequestDTO {

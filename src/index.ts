@@ -7,9 +7,6 @@ import ocorrenciaRoutes from "./routes/OcorrenciaRoutes.js";
 import { createClient } from "@supabase/supabase-js";
 import { AppDataSource } from "./database/data-source";
 
-// Create a single supabase client for interacting with your database
-
-// Carrega variáveis de ambiente
 dotenv.config();
 
 const app = express();
@@ -40,7 +37,6 @@ app.get("/", async (req, res) => {
       usuarios: "/api/usuarios",
       ocorrencias: "/api/ocorrencias",
     },
-    supabaseUsersData: await supabase.from("tabela_usuario").select("*"),
   });
 });
 
@@ -55,7 +51,6 @@ app.use((req, res) => {
 // Inicia servidor
 app.listen(PORT, async () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
-  console.log(`📍 http://localhost:${PORT}`);
 });
 
 export default app;

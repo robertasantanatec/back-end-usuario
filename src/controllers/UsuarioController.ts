@@ -7,6 +7,166 @@ import type {
 } from "../types/usuarioDTO";
 import { toUsuarioResponseDTO } from "../utils/toUsuarioDTO";
 import { gerarToken } from "../utils/jwtUtils";
+import { User } from "../entities/User";
+import { cleanCpf } from "../utils/strings";
+import bcryp from "bcryptjs";
+import {
+  createUser,
+  findByCpf,
+  findByEmail,
+  findByEnrollmentNumber,
+} from "../repository/user";
+
+export const cadastrarUsuario = async (req: Request, res: Response) => {
+  try {
+    const {
+      fullname,
+      cpf,
+      birthDate,
+      gender,
+      phoneNumber,
+      email,
+      enrollmentNumber,
+      post,
+      unity,
+      specialization,
+      passwordHash,
+      address,
+      profileImage,
+      isActive,
+    } = req.body as CadastroUsuarioRequestDTO;
+
+    if (!fullname || !email || !passwordHash || !cpf || !enrollmentNumber) {
+      return res
+        .status(400)
+        .json({ error: "Todos os campos são obrigatórios" });
+    }
+
+    const newUserDTO = {
+      fullname,
+      cpf,
+      birthDate,
+      gender,
+      phoneNumber,
+      email,
+      enrollmentNumber,
+      post,
+      unity,
+      specialization,
+      address,
+      profileImage,
+      isActive,
+    };
+
+    const newUserEntity = new User();
+
+    const encryptedPassword = await bcryp.hash(passwordHash, 8);
+
+    const cleanedCpf = cleanCpf(cpf);
+    if (cleanedCpf.length !== 11) {
+      return res.status(400).json({ error: "CPF inválido" });
+    }
+
+    const existentUserEmail = await findByEmail(email);
+    if (existentUserEmail) {
+      return res.status(400).json({ error: "Email já cadastrado" });
+    }
+
+    const existentUserCpf = await findByCpf(cleanedCpf);
+    if (existentUserCpf) {
+      return res.status(400).json({ error: "CPF já cadastrado" });
+    }
+
+    const existentUserEnrollmentNumber = await findByEnrollmentNumber(
+      enrollmentNumber
+    );
+    if (existentUserEnrollmentNumber) {
+      return res.status(400).json({ error: "Matrícula já cadastrada" });
+    }
+
+    newUserEntity.gender = newUserDTO.gender;
+    newUserEntity.address = newUserDTO.address;
+    newUserEntity.birthDate = newUserDTO.birthDate;
+    newUserEntity.cpf = newUserDTO.cpf;
+    newUserEntity.email = newUserDTO.email;
+    newUserEntity.enrollmentNumber = newUserDTO.enrollmentNumber;
+    newUserEntity.fullname = newUserDTO.fullname;
+    newUserEntity.phoneNumber = newUserDTO.phoneNumber;
+    newUserEntity.post = newUserDTO.post;
+    newUserEntity.profileImage = newUserDTO.profileImage;
+    newUserEntity.specialization = newUserDTO.specialization;
+    newUserEntity.unity = newUserDTO.unity;
+    newUserEntity.isActive = newUserDTO.isActive;
+    newUserEntity.setPasswordHash(encryptedPassword);
+
+    const newUser = await createUser(newUserEntity);
+
+    console.log({ newUser });
+
+    const token = gerarToken({
+      id: newUser?.id?.toString() ?? "",
+      email: newUser.email,
+      enrollmentNumber: newUser.enrollmentNumber,
+    });
+
+    res.status(201).json({
+      usuario: newUser,
+      token,
+      message: "Usuário cadastrado com sucesso",
+    });
+  } catch (err: any) {
+    console.error("Erro ao cadastrar usuário:", err);
+
+    if (err.name === "ValidationError") {
+      const errors = Object.values(err.errors).map((e: any) => e.message);
+      return res.status(400).json({ error: errors.join(", ") });
+    }
+
+    res.status(500).json({ error: "Erro ao cadastrar usuário" });
+  }
+};
+
+export const loginUsuario = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body as LoginUsuarioRequestDTO;
+
+    if (!email || !password) {
+      return res.status(400).json({ error: "Email e senha são obrigatórios" });
+    }
+
+    const userEntity = await findByEmail(email).then((response) => response);
+
+    const { passwordHash } = userEntity ?? {};
+
+    const isCorrectPassword = bcryp.compare(password, passwordHash as string);
+
+    if (!userEntity) {
+      return res.status(401).json({ error: "Email ou senha incorretos" });
+    }
+
+    if (!userEntity.isActive) {
+      return res.status(401).json({ error: "Usuário inativo" });
+    }
+
+    if (!isCorrectPassword) {
+      return res.status(401).json({ error: "Email ou senha incorretos" });
+    }
+
+    const token = gerarToken({
+      id: userEntity?.id?.toString() ?? "",
+      email: userEntity.email,
+      enrollmentNumber: userEntity.enrollmentNumber,
+    });
+
+    res.json({
+      token,
+      message: "Login realizado com sucesso",
+    });
+  } catch (err) {
+    console.error("Erro ao fazer login:", err);
+    res.status(500).json({ error: "Erro ao fazer login" });
+  }
+};
 
 /* export const listarUsuarios = async (req: Request, res: Response) => {
   try {
@@ -19,119 +179,7 @@ import { gerarToken } from "../utils/jwtUtils";
   }
 }; */
 
-/* export const cadastrarUsuario = async (req: Request, res: Response) => {
-  try {
-    const { nome, email, senha, cpf, matricula } =
-      req.body as CadastroUsuarioRequestDTO;
-
-    if (!nome || !email || !senha || !cpf || !matricula) {
-      return res.status(400).json({ error: "Todos os campos são obrigatórios" });
-    }
-
-    const cpfLimpo = cpf.replace(/\D/g, "");
-
-    if (cpfLimpo.length !== 11) {
-      return res.status(400).json({ error: "CPF inválido" });
-    }
-
-    const usuarioExistenteEmail = await Usuario.findOne({ email });
-    if (usuarioExistenteEmail) {
-      return res.status(400).json({ error: "Email já cadastrado" });
-    }
-
-    // Verifica se já existe usuário com esse CPF
-    const usuarioExistenteCPF = await Usuario.findOne({ cpf: cpfLimpo });
-    if (usuarioExistenteCPF) {
-      return res.status(400).json({ error: "CPF já cadastrado" });
-    }
-
-    // Verifica se já existe usuário com essa matrícula
-    const usuarioExistenteMatricula = await Usuario.findOne({ matricula });
-    if (usuarioExistenteMatricula) {
-      return res.status(400).json({ error: "Matrícula já cadastrada" });
-    }
-
-    // Cria novo usuário
-    const novoUsuario = new Usuario({
-      nome,
-      email,
-      senha, // Será hasheada automaticamente pelo middleware do model
-      cpf: cpfLimpo,
-      matricula,
-    });
-
-    await novoUsuario.save();
-
-    // Gera token JWT
-    const token = gerarToken({
-      id: novoUsuario._id.toString(),
-      email: novoUsuario.email,
-      matricula: novoUsuario.matricula,
-    });
-
-    // Retorna usuário e token
-    const resposta = toUsuarioResponseDTO(novoUsuario);
-    res.status(201).json({
-      usuario: resposta,
-      token,
-      message: "Usuário cadastrado com sucesso",
-    });
-  } catch (err: any) {
-    console.error("Erro ao cadastrar usuário:", err);
-    
-    // Erros de validação do Mongoose
-    if (err.name === "ValidationError") {
-      const errors = Object.values(err.errors).map((e: any) => e.message);
-      return res.status(400).json({ error: errors.join(", ") });
-    }
-
-    res.status(500).json({ error: "Erro ao cadastrar usuário" });
-  }
-};
-
-
-export const loginUsuario = async (req: Request, res: Response) => {
-  try {
-    const { email, senha } = req.body as LoginUsuarioRequestDTO;
-
-    if (!email || !senha) {
-      return res.status(400).json({ error: "Email e senha são obrigatórios" });
-    }
-
-    const usuario = await Usuario.findOne({ email }).select("+senha");
-
-    if (!usuario) {
-      return res.status(401).json({ error: "Email ou senha incorretos" });
-    }
-
-    if (!usuario.ativo) {
-      return res.status(401).json({ error: "Usuário inativo" });
-    }
-
-    const senhaCorreta = await usuario.compararSenha(senha);
-
-    if (!senhaCorreta) {
-      return res.status(401).json({ error: "Email ou senha incorretos" });
-    }
-
-    const token = gerarToken({
-      id: usuario._id.toString(),
-      email: usuario.email,
-      matricula: usuario.matricula,
-    });
-
-    const resposta = toUsuarioResponseDTO(usuario);
-    res.json({
-      usuario: resposta,
-      token,
-      message: "Login realizado com sucesso",
-    });
-  } catch (err) {
-    console.error("Erro ao fazer login:", err);
-    res.status(500).json({ error: "Erro ao fazer login" });
-  }
-};
-
+/* 
 
 export const listarUsuarios = async (req: Request, res: Response) => {
   try {
