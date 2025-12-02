@@ -22,5 +22,10 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 8080
+EXPOSE 3000
+
+# HEALTHCHECK para indicar quando a aplicação está pronta
+HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/healthz || exit 1
+
 CMD ["npm", "start"]

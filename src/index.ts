@@ -4,16 +4,12 @@ import dotenv from "dotenv";
 import "reflect-metadata";
 import usuarioRoutes from "./routes/UsuarioRoutes.js";
 import ocorrenciaRoutes from "./routes/OcorrenciaRoutes.js";
-import { createClient } from "@supabase/supabase-js";
 import { AppDataSource } from "./database/data-source";
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 8080;
-const PROJECT_URL = process.env.PROJECT_URL || "";
-const API_KEY = process.env.API_KEY || "";
-const supabase = createClient(PROJECT_URL, API_KEY);
+const PORT = process.env.PORT || 3000;
 
 AppDataSource.initialize()
   .then(() => {
@@ -28,7 +24,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Rotas
+// endpoint healthcheck
+app.get("/healthz", (req, res) => {
+  const dbReady = AppDataSource.isInitialized ? "ok" : "not_initialized";
+  res.status(200).json({ status: "ok", database: dbReady });
+});
+
 app.get("/", async (req, res) => {
   res.json({
     message: "API CBMPE - Sistema de Ocorrências",
@@ -49,7 +50,7 @@ app.use((req, res) => {
 });
 
 // Inicia servidor
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
 
