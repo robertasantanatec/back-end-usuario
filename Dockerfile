@@ -18,11 +18,9 @@ FROM node:20
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install --omit=dev
-
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 3001
-
+EXPOSE 8080
 CMD ["npm", "start"]

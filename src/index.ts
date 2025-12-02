@@ -10,7 +10,7 @@ import { AppDataSource } from "./database/data-source";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const PROJECT_URL = process.env.PROJECT_URL || "";
 const API_KEY = process.env.API_KEY || "";
 const supabase = createClient(PROJECT_URL, API_KEY);
